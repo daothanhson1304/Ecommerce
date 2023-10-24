@@ -1,4 +1,5 @@
-import routes from "./routes";
-import { ROUTES } from "./constants";
+import routes from './routes';
+import ROUTES from './constants';
 
-export { routes as default, ROUTES };
+export default routes;
+export { ROUTES };
