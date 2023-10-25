@@ -1,0 +1,15 @@
+.popular-tags {
+  max-width: 312px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.popular-tag {
+  border: 2px solid gray;
+  padding: 6px 12px;
+  color: white;
+}
+.popular-tag.active {
+  border-color: white;
+  background-color: #303639;
+}

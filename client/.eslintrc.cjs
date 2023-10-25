@@ -8,10 +8,10 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:react/jsx-runtime',
     'plugin:react-hooks/recommended',
-    "prettier",
+    'prettier',
     'plugin:prettier/recommended',
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
+  ignorePatterns: ['dist', '.eslintrc.cjs', 'vite.config.js'],
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
   settings: {
     'import/resolver': {
@@ -21,14 +21,21 @@ module.exports = {
       },
     },
   },
-  plugins: ['react-refresh','prettier'],
+  plugins: ['react-refresh', 'prettier'],
   rules: {
-    'prettier/prettier': 'error',
     'react-refresh/only-export-components': [
       'warn',
       { allowConstantExport: true },
     ],
     'linebreak-style': 0,
-    "import/no-unresolved":0
+    'import/no-unresolved': 0,
+    'react/prop-types': 0,
+    'jsx-a11y/click-events-have-key-events': 0,
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto',
+      },
+    ],
   },
 };

@@ -5,9 +5,11 @@ import Header from '../Header';
 
 function Layout() {
   return (
-    <div>
+    <div className="min-h-screen">
       <Header />
-      <Outlet />
+      <div className="pt-[186px]">
+        <Outlet />
+      </div>
       <Footer />
     </div>
   );

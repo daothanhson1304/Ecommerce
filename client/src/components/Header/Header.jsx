@@ -4,7 +4,7 @@ import TopNav from './TopNav';
 
 function Header() {
   return (
-    <div className="text-white bg-secondary-700">
+    <div className="text-white bg-secondary-700 fixed w-full">
       <TopNav />
       <MiddleNav />
       <BottomNav />

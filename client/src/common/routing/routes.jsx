@@ -1,7 +1,8 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import Layout from '@components/Layout';
+import { Auth, SignUp, SignIn } from '@pages/Auth';
 import Home from '@pages/Home';
+import Layout from '@components/Layout';
 import ROUTES from './constants';
 
 const routes = createBrowserRouter([
@@ -12,6 +13,20 @@ const routes = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: ROUTES.AUTH.RELATIVE_PATH,
+        element: <Auth />,
+        children: [
+          {
+            path: ROUTES.SIGN_IN.RELATIVE_PATH,
+            element: <SignIn />,
+          },
+          {
+            path: ROUTES.SIGN_UP.RELATIVE_PATH,
+            element: <SignUp />,
+          },
+        ],
       },
     ],
   },
