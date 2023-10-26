@@ -31,6 +31,7 @@ module.exports = {
     'import/no-unresolved': 0,
     'react/prop-types': 0,
     'jsx-a11y/click-events-have-key-events': 0,
+    'jsx-a11y/no-static-element-interactions': 0,
     'prettier/prettier': [
       'error',
       {
