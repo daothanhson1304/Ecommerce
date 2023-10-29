@@ -1,13 +1,29 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import { BsArrowRight } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
+import { Controller, useForm } from 'react-hook-form';
+import { useSignUpMutation } from '@store/auth/authSlice';
 import { ROUTES } from '@common/routing';
+import TextInput from '@components/Ui';
 import OtherAuth from '../OtherAuth';
 
+const signUpDefaultValues = {
+  name: '',
+  email: '',
+  password: '',
+};
 export default function SignUp() {
+  const [signUp, { isLoading }] = useSignUpMutation();
   const navigate = useNavigate();
+  const { control, handleSubmit } = useForm({
+    defaultValues: signUpDefaultValues,
+  });
   const handleNavigateToSignIn = () => {
     navigate(ROUTES.SIGN_IN.ABSOLUTE_PATH);
+  };
+  const onSubmit = (formData) => {
+    const { name, email, password, confirmPassword } = formData;
+    if (password !== confirmPassword) return;
+    signUp({ email, name, password });
   };
   return (
     <div className="py-[100px] flex items-center justify-center">
@@ -27,32 +43,85 @@ export default function SignUp() {
         </div>
         <div className="py-[32px]">
           <form className="px-[32px]" action="">
-            <div className="flex flex-col gap-y-3 mb-[16px]">
-              <label htmlFor="emailAddress">Name</label>
-              <input className="sign-in-input" type="text" id="emailAddress" />
+            <div className="mb-[16px]">
+              <Controller
+                control={control}
+                name="name"
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, value } }) => (
+                  <TextInput
+                    className="sign-in-input"
+                    label="Name"
+                    onChange={onChange}
+                    value={value}
+                  />
+                )}
+              />
             </div>
-            <div className="flex flex-col gap-y-3 mb-[16px]">
-              <label htmlFor="emailAddress">Email Address</label>
-              <input className="sign-in-input" type="text" id="emailAddress" />
+            <div className="mb-[16px]">
+              <Controller
+                control={control}
+                name="email"
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, value } }) => (
+                  <TextInput
+                    className="sign-in-input"
+                    label="Email"
+                    onChange={onChange}
+                    value={value}
+                  />
+                )}
+              />
             </div>
-            <div className="flex items-center justify-between mb-[12px]">
-              <label htmlFor="password">Password</label>
+            <div className="mb-[16px]">
+              <Controller
+                control={control}
+                name="password"
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, value } }) => (
+                  <TextInput
+                    className="sign-in-input"
+                    label="Password"
+                    placeholder="8+ characters"
+                    type="password"
+                    onChange={onChange}
+                    value={value}
+                  />
+                )}
+              />
             </div>
-            <input
-              className="sign-in-input"
-              placeholder="8+ characters"
-              type="text"
-              id="password"
-            />
-            <div className="flex flex-col gap-y-3 mt-[16px]">
-              <label htmlFor="emailAddress">Confirm Password</label>
-              <input className="sign-in-input" type="text" id="emailAddress" />
+            <div className="mb-[16px]">
+              <Controller
+                control={control}
+                name="confirmPassword"
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, value } }) => (
+                  <TextInput
+                    className="sign-in-input"
+                    label="Confirm Password"
+                    type="password"
+                    onChange={onChange}
+                    value={value}
+                  />
+                )}
+              />
             </div>
             <button
-              type="button"
+              type="submit"
               className="w-full bg-primary-500 text-white rounded flex items-center justify-center mt-[24px] gap-x-2"
+              onClick={handleSubmit(onSubmit)}
             >
-              <span className="leading-[48px] font-bold">SIGN UP</span>
+              <span className="leading-[48px] font-bold">
+                {isLoading ? 'SIGN UP...' : 'SIGN UP'}
+              </span>
               <BsArrowRight className="text-2xl" />
             </button>
           </form>

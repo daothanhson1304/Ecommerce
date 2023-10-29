@@ -1,13 +1,27 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useNavigate } from 'react-router-dom';
 import { BsArrowRight } from 'react-icons/bs';
+import { Controller, useForm } from 'react-hook-form';
+import { useSignInMutation } from '@store/auth/authSlice';
 import { ROUTES } from '@common/routing';
+import TextInput from '@components/Ui';
 import OtherAuth from '../OtherAuth';
 
+const signInDefaultValues = {
+  email: '',
+  password: '',
+};
 export default function SignIn() {
   const navigate = useNavigate();
+  const [signIn, { isLoading }] = useSignInMutation();
   const handleNavigateToSignUp = () => {
     navigate(ROUTES.SIGN_UP.ABSOLUTE_PATH);
+  };
+  const { control, handleSubmit } = useForm({
+    defaultValues: signInDefaultValues,
+  });
+  const onSubmit = (formData) => {
+    signIn(formData);
   };
   return (
     <div className="py-[100px] flex items-center justify-center">
@@ -27,22 +41,49 @@ export default function SignIn() {
         </div>
         <div className="py-[32px]">
           <form className="px-[32px]" action="">
-            <div className="flex flex-col gap-y-3 mb-[16px]">
-              <label htmlFor="emailAddress">Email Address</label>
-              <input className="sign-in-input" type="text" id="emailAddress" />
+            <div className="mb-[16px]">
+              <Controller
+                control={control}
+                name="email"
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, value } }) => (
+                  <TextInput
+                    className="sign-in-input"
+                    label="Email"
+                    onChange={onChange}
+                    value={value}
+                  />
+                )}
+              />
             </div>
-            <div className="flex items-center justify-between mb-[12px]">
-              <label htmlFor="password">Password</label>
-              <p className="text-secondary-500 cursor-pointer">
-                Forget Password
-              </p>
+            <div className="mb-[16px]">
+              <Controller
+                control={control}
+                name="password"
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, value } }) => (
+                  <TextInput
+                    className="sign-in-input"
+                    type="password"
+                    label="Password"
+                    onChange={onChange}
+                    value={value}
+                  />
+                )}
+              />
             </div>
-            <input className="sign-in-input" type="text" id="password" />
             <button
               type="button"
               className="w-full bg-primary-500 text-white rounded flex items-center justify-center mt-[24px] gap-x-2"
+              onClick={handleSubmit(onSubmit)}
             >
-              <span className="leading-[48px] font-bold">SIGN IN</span>
+              <span className="leading-[48px] font-bold">
+                {isLoading ? 'SIGN IN...' : 'SIGN IN'}
+              </span>
               <BsArrowRight className="text-2xl" />
             </button>
           </form>

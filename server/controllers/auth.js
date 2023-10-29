@@ -1,24 +1,32 @@
-const UserModel = require('../models/user');
+const { User } = require("../models/index");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const authController = {
   signIn: async (req, res, next) => {
     try {
       const { email, password } = req.body;
       if (!(email && password)) {
-        res.status(400).send('All input is required');
+        res.status(400).send("All input is required");
       }
-      const user = await User.findOne({ email });
+      const user = await User.findOne({
+        where: { email },
+        attributes: ["name", "email", "password"],
+      });
       if (user && (await bcrypt.compare(password, user.password))) {
         const token = jwt.sign(
           { user_id: user._id, email },
           process.env.SECRET_KEY,
           {
-            expiresIn: '2h',
+            expiresIn: "24h",
           }
         );
-        res.status(200).json({ user, token });
+        res
+          .status(200)
+          .json({ user: { email: user.email, name: user.name }, token });
+      } else {
+        res.status(400).send("Invalid Credentials");
       }
-      res.status(400).send('Invalid Credentials');
     } catch (err) {
       console.log(err);
     }
@@ -26,22 +34,22 @@ const authController = {
 
   signUp: async (req, res, next) => {
     try {
-      const { email, password } = req.body;
-      if (!(email && password)) {
-        res.status(400).send('All input is required');
+      const { name, email, password } = req.body;
+      if (!(email && password && name)) {
+        res.status(400).send("All input is required");
       }
-      const user = await User.findOne({ email });
-      if (user && (await bcrypt.compare(password, user.password))) {
-        const token = jwt.sign(
-          { user_id: user._id, email },
-          process.env.SECRET_KEY,
-          {
-            expiresIn: '2h',
-          }
-        );
-        res.status(200).json({ user, token });
+      const oldUser = await User.findOne({ where: { email } });
+      if (oldUser) {
+        return res.status(409).send("User Already Exist. Please Login");
       }
-      res.status(400).send('Invalid Credentials');
+      encryptedPassword = await bcrypt.hash(password, 10);
+      const user = await User.create({
+        name,
+        email: email.toLowerCase(),
+        password: encryptedPassword,
+      });
+      const userResponse = { email: user.email, name: user.name };
+      res.status(201).json(userResponse);
     } catch (err) {
       console.log(err);
     }
