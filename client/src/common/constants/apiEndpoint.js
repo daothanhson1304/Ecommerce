@@ -1,5 +1,6 @@
 const API_ENDPOINT = {
   AUTH: { SIGN_IN: '/auth/sign-in', SIGN_UP: '/auth/sign-up' },
+  PRODUCT: { GET_PRODUCT: '/product/get-product' },
 };
 const METHOD = {
   POST: 'POST',
