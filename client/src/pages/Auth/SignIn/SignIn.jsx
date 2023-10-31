@@ -24,7 +24,7 @@ export default function SignIn() {
     signIn(formData);
   };
   return (
-    <div className="py-[100px] flex items-center justify-center">
+    <div className=" flex items-center justify-center">
       <div className="sign-in-form shadow-base">
         <div className="flex">
           <div className="py-5 flex-1 font-semibold text-gray-900 text-center border-b-2 border-primary-500 cursor-pointer ">

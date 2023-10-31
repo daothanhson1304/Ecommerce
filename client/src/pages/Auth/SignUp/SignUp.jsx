@@ -26,7 +26,7 @@ export default function SignUp() {
     signUp({ email, name, password });
   };
   return (
-    <div className="py-[100px] flex items-center justify-center">
+    <div className="flex items-center justify-center">
       <div className="sign-in-form shadow-base">
         <div className="flex">
           <div

@@ -28,7 +28,8 @@ const authController = {
         res.status(400).send("Invalid Credentials");
       }
     } catch (err) {
-      console.log(err);
+      console.error(error);
+      res.status(500).send("Internal Server Error");
     }
   },
 
@@ -51,7 +52,8 @@ const authController = {
       const userResponse = { email: user.email, name: user.name };
       res.status(201).json(userResponse);
     } catch (err) {
-      console.log(err);
+      console.error(error);
+      res.status(500).send("Internal Server Error");
     }
   },
 };
