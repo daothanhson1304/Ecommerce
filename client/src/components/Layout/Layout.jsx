@@ -9,7 +9,7 @@ function Layout() {
     <div className="min-h-screen">
       <Header />
       <Breadcrumb />
-      <div className="pt-[186px] px-[200px]">
+      <div className="pt-[186px] px-[200px] pb-[72px]">
         <Outlet />
       </div>
       <Footer />

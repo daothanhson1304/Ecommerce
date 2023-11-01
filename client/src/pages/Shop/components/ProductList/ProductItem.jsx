@@ -7,7 +7,7 @@ import {
   AiOutlineShoppingCart,
   AiOutlineStar,
 } from 'react-icons/ai';
-import iphone from '../../../../assets/iphone15.webp';
+// import iphone from '../../../../assets/iphone15.webp';
 
 export default function ProductItem({ product }) {
   const { title, rating, price } = product;
@@ -37,7 +37,7 @@ export default function ProductItem({ product }) {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <img src={iphone} />
+        <img src="https://cdn.hoanghamobile.com/i/preview/Uploads/2023/09/13/iphone-15-pro-blue-titanium-pure-back-iphone-15-pro-blue-titanium-pure-front-2up-screen-usen.png" />
         {isHovered && (
           <div className="absolute right-0 bottom-0 top-0 left-0 flex items-center justify-center gap-x-2 bg-overlay">
             <button

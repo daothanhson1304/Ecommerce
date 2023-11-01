@@ -7,10 +7,28 @@ const apiWithProductTags = api.enhanceEndpoints({ addTagTypes: ['Product'] });
 
 const productApi = apiWithProductTags.injectEndpoints({
   endpoints: (builder) => ({
-    getProduct: builder.query({
+    getProducts: builder.query({
       query: (params) => {
         return {
-          url: API_ENDPOINT.PRODUCT.GET_PRODUCT,
+          url: API_ENDPOINT.PRODUCT.GET_PRODUCTS,
+          method: METHOD.GET,
+          params,
+        };
+      },
+    }),
+    getProductCategories: builder.query({
+      query: (params) => {
+        return {
+          url: API_ENDPOINT.PRODUCT.GET_PRODUCT_CATEGORIES,
+          method: METHOD.GET,
+          params,
+        };
+      },
+    }),
+    getProductBrands: builder.query({
+      query: (params) => {
+        return {
+          url: API_ENDPOINT.PRODUCT.GET_PRODUCT_BRANDS,
           method: METHOD.GET,
           params,
         };
@@ -19,5 +37,9 @@ const productApi = apiWithProductTags.injectEndpoints({
   }),
 });
 
-export const { useGetProductQuery } = productApi;
+export const {
+  useGetProductCategoriesQuery,
+  useGetProductBrandsQuery,
+  useGetProductsQuery,
+} = productApi;
 export default productApi;
