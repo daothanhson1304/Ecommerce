@@ -1,11 +1,11 @@
-const { Product, Category } = require("../models/index");
+const { Product, ProductImage } = require('../models/index');
 
 const productController = {
   getProducts: async (req, res, next) => {
     try {
       const { pageIndex, pageSize } = req.query;
       if (!pageIndex || !pageSize) {
-        res.status(400).json({ message: "Bad request!" });
+        res.status(400).json({ message: 'Bad request!' });
       }
       const limit = parseInt(pageSize) || 10;
       const page = parseInt(pageIndex) || 1;
@@ -13,7 +13,15 @@ const productController = {
       const products = await Product.findAndCountAll({
         limit: limit,
         offset: offset,
-        attributes: { exclude: ["createdAt", "updatedAt"] },
+        include: [
+          {
+            model: ProductImage,
+            attributes: {
+              exclude: ['id', 'createdAt', 'updatedAt', 'productId'],
+            },
+          },
+        ],
+        attributes: { exclude: ['createdAt', 'updatedAt'] },
       });
       const totalCount = products.count;
       const totalPages = Math.ceil(totalCount / limit);
@@ -25,7 +33,7 @@ const productController = {
         products: products.rows,
       });
     } catch (err) {
-      res.status(500).send("Internal Server Error");
+      res.status(500).send('Internal Server Error');
     }
   },
 };

@@ -17,6 +17,7 @@ export default {
         'secondary-500': '#2DA5F3',
         'secondary-700': '#1B6392',
         'primary-500': '#FA8232',
+        overlay: '#04040430',
       },
       borderWidth: {
         1: '1px',
