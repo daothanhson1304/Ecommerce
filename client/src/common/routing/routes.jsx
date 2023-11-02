@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import Shop from '@pages/Shop';
 import { Auth, SignUp, SignIn } from '@pages/Auth';
+import ProductDetail from '@pages/Product';
 import Layout from '@components/Layout';
 import ROUTES from './constants';
 
@@ -27,6 +28,10 @@ const routes = createBrowserRouter([
             element: <SignUp />,
           },
         ],
+      },
+      {
+        path: ROUTES.PRODUCT_DETAIL.ABSOLUTE_PATH,
+        element: <ProductDetail />,
       },
     ],
   },

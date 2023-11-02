@@ -1,4 +1,4 @@
-/* eslint-disable jsx-a11y/alt-text */
+import { ROUTES } from '@common/routing';
 import { useState } from 'react';
 import {
   AiFillStar,
@@ -7,11 +7,12 @@ import {
   AiOutlineShoppingCart,
   AiOutlineStar,
 } from 'react-icons/ai';
-// import iphone from '../../../../assets/iphone15.webp';
+import { useNavigate } from 'react-router-dom';
 
 export default function ProductItem({ product }) {
-  const { title, rating, price } = product;
+  const { id, title, rating, price, image } = product;
   const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate();
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -19,6 +20,10 @@ export default function ProductItem({ product }) {
 
   const handleMouseLeave = () => {
     setIsHovered(false);
+  };
+
+  const handleGoToProductDetail = (productId) => {
+    navigate(`${ROUTES.PRODUCT_DETAIL.RELATIVE_PATH}/${productId}`);
   };
 
   const renderStars = (rate) => {
@@ -37,7 +42,7 @@ export default function ProductItem({ product }) {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <img src="https://cdn.hoanghamobile.com/i/preview/Uploads/2023/09/13/iphone-15-pro-blue-titanium-pure-back-iphone-15-pro-blue-titanium-pure-front-2up-screen-usen.png" />
+        <img src={image || ''} alt="product" />
         {isHovered && (
           <div className="absolute right-0 bottom-0 top-0 left-0 flex items-center justify-center gap-x-2 bg-overlay">
             <button
@@ -55,6 +60,9 @@ export default function ProductItem({ product }) {
             <button
               className="p-3 bg-white rounded-full hover:bg-primary-500 hover:text-white"
               type="button"
+              onClick={() => {
+                handleGoToProductDetail(id);
+              }}
             >
               <AiOutlineEye />
             </button>

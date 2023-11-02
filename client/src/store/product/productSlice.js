@@ -34,6 +34,16 @@ const productApi = apiWithProductTags.injectEndpoints({
         };
       },
     }),
+
+    getProductDetail: builder.query({
+      query: (params) => {
+        return {
+          url: API_ENDPOINT.PRODUCT.GET_PRODUCT_DETAIL,
+          method: METHOD.GET,
+          params,
+        };
+      },
+    }),
   }),
 });
 
@@ -41,5 +51,6 @@ export const {
   useGetProductCategoriesQuery,
   useGetProductBrandsQuery,
   useGetProductsQuery,
+  useGetProductDetailQuery,
 } = productApi;
 export default productApi;
