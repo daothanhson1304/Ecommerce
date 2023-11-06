@@ -52,7 +52,7 @@ export default function SignUp() {
                 }}
                 render={({ field: { onChange, value } }) => (
                   <TextInput
-                    className="sign-in-input"
+                    className="base-input"
                     label="Name"
                     onChange={onChange}
                     value={value}
@@ -69,7 +69,7 @@ export default function SignUp() {
                 }}
                 render={({ field: { onChange, value } }) => (
                   <TextInput
-                    className="sign-in-input"
+                    className="base-input"
                     label="Email"
                     onChange={onChange}
                     value={value}
@@ -86,7 +86,7 @@ export default function SignUp() {
                 }}
                 render={({ field: { onChange, value } }) => (
                   <TextInput
-                    className="sign-in-input"
+                    className="base-input"
                     label="Password"
                     placeholder="8+ characters"
                     type="password"
@@ -105,7 +105,7 @@ export default function SignUp() {
                 }}
                 render={({ field: { onChange, value } }) => (
                   <TextInput
-                    className="sign-in-input"
+                    className="base-input"
                     label="Confirm Password"
                     type="password"
                     onChange={onChange}

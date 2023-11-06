@@ -1,4 +1,11 @@
-const { Product, ProductImage } = require("../models/index");
+const {
+  sequelize,
+  Sequelize,
+  Product,
+  ProductImage,
+  ProductProperties,
+  CategoryProperties,
+} = require("../models/index");
 
 const productController = {
   getProducts: async (req, res, next) => {
@@ -57,14 +64,66 @@ const productController = {
       if (!productId) {
         res.status(400).json({ message: "Bad request!" });
       }
-      const product = await Product.findByPk(productId);
-      if (!product) {
+      const product = await Product.findOne({
+        where: {
+          id: productId,
+        },
+        include: [
+          {
+            model: ProductImage,
+            attributes: {
+              exclude: ["id", "createdAt", "updatedAt", "productId"],
+            },
+            as: "images",
+          },
+        ],
+      });
+      const productProperties = await ProductProperties.findAll({
+        where: {
+          categoryPropertiesId: {
+            [Sequelize.Op.in]: sequelize.literal(
+              `(SELECT "id" FROM "CategoryProperties" WHERE "categoryId" = (SELECT "categoryId" FROM "Product" WHERE "id" = '${productId}'))`
+            ),
+          },
+        },
+        include: [
+          {
+            model: CategoryProperties,
+            attributes: {
+              exclude: ["id", "createdAt", "updatedAt", "categoryId"],
+            },
+            as: "categoryProperties",
+          },
+        ],
+        attributes: {
+          exclude: [
+            "createdAt",
+            "updatedAt",
+            "id",
+            "categoryPropertiesId",
+            "productId",
+          ],
+        },
+      });
+
+      // const properties = productProperties.reduce((result, current) => {
+      //   // const property = current.categoryProperties.property;
+      //   // console.log({ result, property, key: result[property] });
+      //   // const value = result[property]
+      //   //   ? result[property]?.push(current.value)
+      //   //   : [current.value];
+      //   return {
+      //     // ...result,
+      //     // [property]: value,
+      //   };
+      // }, {});
+      if (!productProperties) {
         return res.status(404).json({ message: "Product not found" });
       }
-      return res.status(200).json(product);
+      return res.status(200).json(productProperties);
     } catch (err) {
       console.log({ err });
-      res.status(500).send("Internal Server Error");
+      res.status(500).send(err);
     }
   },
 };

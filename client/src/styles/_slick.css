@@ -1,0 +1,17 @@
+.slick-next::before,
+.slick-prev::before {
+  color: #303639 !important;
+}
+.slick-dots li {
+  width: 100px !important;
+}
+.slick-dots {
+  display: flex !important;
+}
+.slick-active .slick-image {
+  border: 1px solid #fa8232;
+}
+.slick-image {
+  padding: 2px;
+  border-radius: 5px;
+}

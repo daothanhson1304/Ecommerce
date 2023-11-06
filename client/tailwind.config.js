@@ -10,6 +10,7 @@ export default {
         'gray-400': '##929FA5',
         'gray-500': '#77878F',
         'gray-600': '#5F6C72',
+        'gray-700': '#475156',
         'gray-800': '#303639',
         'gray-900': '#191C1F',
         'success-500': '#2DB224',
@@ -17,7 +18,9 @@ export default {
         'secondary-100': '#D5EDFD',
         'secondary-500': '#2DA5F3',
         'secondary-700': '#1B6392',
+        'primary-200': '#FFCEAD',
         'primary-500': '#FA8232',
+        danger: '#EE5858',
         overlay: '#04040430',
       },
       borderWidth: {

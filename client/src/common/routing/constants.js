@@ -7,5 +7,25 @@ const ROUTES = {
     RELATIVE_PATH: 'product-detail',
     ABSOLUTE_PATH: '/product-detail/:productId',
   },
+  SHOPPING_CARD: {
+    RELATIVE_PATH: 'shopping-card',
+    ABSOLUTE_PATH: '/shopping-card',
+  },
+  CHECKOUT: {
+    RELATIVE_PATH: 'checkout',
+    ABSOLUTE_PATH: '/checkout',
+  },
+  CHECKOUT_SUCCESS: {
+    RELATIVE_PATH: 'checkout-success',
+    ABSOLUTE_PATH: '/checkout-success',
+  },
+  TRACK_ORDER: {
+    RELATIVE_PATH: 'track-order',
+    ABSOLUTE_PATH: '/track-order',
+  },
+  TRACK_ORDER_DETAIL: {
+    RELATIVE_PATH: 'track-order-detail',
+    ABSOLUTE_PATH: '/track-order-detail',
+  },
 };
 export default ROUTES;

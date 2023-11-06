@@ -16,4 +16,7 @@ export default defineConfig({
   define: {
     'process.env': {},
   },
+  optimizeDeps: {
+    exclude: ['js-big-decimal'],
+  },
 });

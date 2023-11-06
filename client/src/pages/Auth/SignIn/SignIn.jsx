@@ -50,7 +50,7 @@ export default function SignIn() {
                 }}
                 render={({ field: { onChange, value } }) => (
                   <TextInput
-                    className="sign-in-input"
+                    className="base-input"
                     label="Email"
                     onChange={onChange}
                     value={value}
@@ -67,7 +67,7 @@ export default function SignIn() {
                 }}
                 render={({ field: { onChange, value } }) => (
                   <TextInput
-                    className="sign-in-input"
+                    className="base-input"
                     type="password"
                     label="Password"
                     onChange={onChange}

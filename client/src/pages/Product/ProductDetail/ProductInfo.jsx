@@ -1,3 +1,4 @@
+import { ROUTES } from '@common/routing';
 import classNames from 'classnames';
 import {
   AiFillStar,
@@ -9,10 +10,12 @@ import {
 import { BiGitCompare } from 'react-icons/bi';
 import { BsFacebook } from 'react-icons/bs';
 import { LiaCopySolid } from 'react-icons/lia';
+import { useNavigate } from 'react-router-dom';
 
 export default function ProductInfo({ className, info }) {
-  console.log({ info });
-  const { title, rating, price } = info;
+  const { rating, price, id } = info;
+  const navigate = useNavigate();
+
   const renderStars = (rate = 0) => {
     return Array.from({ length: 5 }, (_, index) => {
       return index < rate ? (
@@ -21,6 +24,9 @@ export default function ProductInfo({ className, info }) {
         <AiOutlineStar />
       );
     });
+  };
+  const handleAddToCard = () => {
+    navigate(ROUTES.SHOPPING_CARD.ABSOLUTE_PATH);
   };
   return (
     <div className={classNames('flex flex-col gap-y-6', className)}>
@@ -147,6 +153,9 @@ export default function ProductInfo({ className, info }) {
         <button
           className="flex px-9 py-3 items-center gap-x-3 bg-primary-500 text-white"
           type="button"
+          onClick={() => {
+            handleAddToCard(id);
+          }}
         >
           <p>ADD TO CARD</p>
           <AiOutlineShoppingCart />

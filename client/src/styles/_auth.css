@@ -3,7 +3,7 @@
   border-radius: 4px;
   border: 1px solid var(--color-gray-100);
 }
-.sign-in-input {
+.base-input {
   display: flex;
   height: 44px;
   column-gap: 24px;
