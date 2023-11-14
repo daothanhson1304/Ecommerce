@@ -20,10 +20,15 @@ export default function SignUp() {
   const handleNavigateToSignIn = () => {
     navigate(ROUTES.SIGN_IN.ABSOLUTE_PATH);
   };
-  const onSubmit = (formData) => {
-    const { name, email, password, confirmPassword } = formData;
-    if (password !== confirmPassword) return;
-    signUp({ email, name, password });
+  const onSubmit = async (formData) => {
+    try {
+      const { name, email, password, confirmPassword } = formData;
+      if (password !== confirmPassword) return;
+      await signUp({ email, name, password });
+      handleNavigateToSignIn();
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="flex items-center justify-center">

@@ -1,4 +1,4 @@
-import { ROUTES } from '@common/routing';
+import { useState } from 'react';
 import classNames from 'classnames';
 import {
   AiFillStar,
@@ -10,11 +10,26 @@ import {
 import { BiGitCompare } from 'react-icons/bi';
 import { BsFacebook } from 'react-icons/bs';
 import { LiaCopySolid } from 'react-icons/lia';
-import { useNavigate } from 'react-router-dom';
 
-export default function ProductInfo({ className, info }) {
-  const { rating, price, id } = info;
-  const navigate = useNavigate();
+export default function ProductInfo({ className, info, onAddToCard }) {
+  const { product } = info;
+  const { title, rating, price, id, images } = product;
+
+  const productDetail = {
+    color: ['red', 'midnight', 'green', 'blue', 'pink'],
+    sku: ['A263678'],
+    brand: ['apple'],
+    size: [
+      '14-inch Liquid Retina XDR display',
+      '13-inch Liquid Retina XDR display',
+      '16-inch Liquid Retina XDR display',
+    ],
+    memory: ['16GB', '64GB', '128GB'],
+    storage: ['512GB', '1TB'],
+  };
+  const { color, sku, brand, size, memory, storage } = productDetail;
+
+  const [quantity, setQuantity] = useState(1);
 
   const renderStars = (rate = 0) => {
     return Array.from({ length: 5 }, (_, index) => {
@@ -26,7 +41,21 @@ export default function ProductInfo({ className, info }) {
     });
   };
   const handleAddToCard = () => {
-    navigate(ROUTES.SHOPPING_CARD.ABSOLUTE_PATH);
+    const params = {
+      id,
+      quantity,
+      image: images[0].image,
+      title,
+      price,
+    };
+    onAddToCard(params);
+  };
+  const handleMinusQuantity = () => {
+    if (quantity === 1) return;
+    setQuantity(quantity - 1);
+  };
+  const handlePlusQuantity = () => {
+    setQuantity(quantity + 1);
   };
   return (
     <div className={classNames('flex flex-col gap-y-6', className)}>
@@ -35,17 +64,15 @@ export default function ProductInfo({ className, info }) {
           <div className="flex">{renderStars(rating)}</div>
           <span className="text-sm font-semibold">{`${rating} Star Rating`}</span>
         </div>
-        <h3 className="text-xl mb-4">
-          2020 Apple MacBook Pro with Apple M1 Chip (13-inch, 8GB RAM, 256GB SSD
-          Storage) - Space Gray
-        </h3>
+        <h3 className="text-xl mb-4">{title}</h3>
         <div className="flex">
           <div className="flex flex-col flex-1">
             <p className="text-sm font-normal">
-              Sku: <span className="font-semibold">A263678</span>
+              Sku: <span className="font-semibold">{sku ? sku[0] : ''}</span>
             </p>
             <p className="text-sm font-normal">
-              Branch: <span className="font-semibold">Apple</span>
+              Branch:{' '}
+              <span className="font-semibold">{brand ? brand[0] : ''}</span>
             </p>
           </div>
           <div className="flex flex-col flex-1">
@@ -63,92 +90,78 @@ export default function ProductInfo({ className, info }) {
 
       <h2 className="text-2xl font-semibold text-secondary-500">{`$${price}`}</h2>
       <div className="h-[1px] bg-gray-200" />
-      <div className="grid grid-cols-2 gap-y-4 gap-x-6">
-        <div className="flex flex-col gap-y-2">
-          <p className="text-sm">Color</p>
-          <div className="w-[40px] h-[40px] rounded-full bg-slate-400" />
+      {Object.keys(productDetail).length > 0 && (
+        <div className="grid grid-cols-2 gap-y-4 gap-x-6">
+          <div className="flex flex-col gap-y-2">
+            <p className="text-sm">Color</p>
+            <select className="px-4 py-3 border-1">
+              {color.map((item) => {
+                return (
+                  <option className="text-sm" value={item} key={item}>
+                    {item}
+                  </option>
+                );
+              })}
+            </select>
+            {/* <div className="w-[40px] h-[40px] rounded-full bg-slate-400" /> */}
+          </div>
+          <div className="flex flex-col gap-y-2">
+            <p className="text-sm">Size</p>
+            <select className="px-4 py-3 border-1">
+              {size.map((item) => {
+                return (
+                  <option className="text-sm" value={item} key={item}>
+                    {item}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          <div className="flex flex-col gap-y-2">
+            <p className="text-sm">Memory</p>
+            <select className="px-4 py-3 border-1">
+              {memory.map((item) => {
+                return (
+                  <option className="text-sm" value={item} key={item}>
+                    {item}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          <div className="flex flex-col gap-y-2">
+            <p className="text-sm">Storage</p>
+            <select className="px-4 py-3 border-1">
+              {storage.map((item) => {
+                return (
+                  <option className="text-sm" value={item} key={item}>
+                    {item}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
         </div>
-        <div className="flex flex-col gap-y-2">
-          <p className="text-sm">Size</p>
-          <select className="px-4 py-3 border-1">
-            <option
-              className="text-sm"
-              value="14-inch Liquid Retina XDR display"
-            >
-              14-inch Liquid Retina XDR display
-            </option>
-            <option
-              className="text-sm"
-              value="14-inch Liquid Retina XDR display"
-            >
-              14-inch Liquid Retina XDR display
-            </option>
-            <option
-              className="text-sm"
-              value="14-inch Liquid Retina XDR display"
-            >
-              14-inch Liquid Retina XDR display
-            </option>
-            <option
-              className="text-sm"
-              value="14-inch Liquid Retina XDR display"
-            >
-              14-inch Liquid Retina XDR display
-            </option>
-            <option
-              className="text-sm"
-              value="14-inch Liquid Retina XDR display"
-            >
-              14-inch Liquid Retina XDR display
-            </option>
-          </select>
-        </div>
-        <div className="flex flex-col gap-y-2">
-          <p className="text-sm">Memory</p>
-          <select className="px-4 py-3 border-1">
-            <option className="text-sm" value="16GB unified memory">
-              16GB unified memory
-            </option>
-            <option className="text-sm" value="16GB unified memory">
-              16GB unified memory
-            </option>
-            <option className="text-sm" value="16GB unified memory">
-              16GB unified memory
-            </option>
-            <option className="text-sm" value="16GB unified memory">
-              16GB unified memory
-            </option>
-            <option className="text-sm" value="16GB unified memory">
-              16GB unified memory
-            </option>
-          </select>
-        </div>
-        <div className="flex flex-col gap-y-2">
-          <p className="text-sm">Storage</p>
-          <select className="px-4 py-3 border-1">
-            <option className="text-sm" value="1TV SSD Storage">
-              1TV SSD Storage
-            </option>
-            <option className="text-sm" value="1TV SSD Storage">
-              1TV SSD Storage
-            </option>
-            <option className="text-sm" value="1TV SSD Storage">
-              1TV SSD Storage
-            </option>
-            <option className="text-sm" value="1TV SSD Storage">
-              1TV SSD Storage
-            </option>
-            <option className="text-sm" value="1TV SSD Storage">
-              1TV SSD Storage
-            </option>
-          </select>
-        </div>
-      </div>
+      )}
       <div className="flex items-center justify-between gap-x-4">
         <div className="flex border-2 py-2 ">
-          <span className="px-6 text-lg cursor-pointer ">-</span>
-          <span className="px-6 text-lg cursor-pointer ">01</span>
-          <span className="px-6 text-lg cursor-pointer ">+</span>
+          <button
+            onClick={handleMinusQuantity}
+            type="button"
+            className="px-6 text-lg cursor-pointer "
+          >
+            -
+          </button>
+          <button type="button" className="px-6 text-lg cursor-pointer ">
+            {quantity}
+          </button>
+          <button
+            onClick={handlePlusQuantity}
+            type="button"
+            className="px-6 text-lg cursor-pointer "
+          >
+            +
+          </button>
         </div>
         <button
           className="flex px-9 py-3 items-center gap-x-3 bg-primary-500 text-white"

@@ -9,10 +9,19 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasMany(models.OrderDetail, {
+        foreignKey: "userId",
+      });
     }
   }
   User.init(
     {
+      id: {
+        allowNull: false,
+        primaryKey: true,
+        defaultValue: DataTypes.UUIDV4,
+        type: DataTypes.UUID,
+      },
       name: {
         type: DataTypes.STRING,
       },

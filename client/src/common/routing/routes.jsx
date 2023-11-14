@@ -5,7 +5,8 @@ import ProductDetail from '@pages/Product';
 import ShoppingCard from '@pages/ShoppingCard';
 import { Auth, SignUp, SignIn } from '@pages/Auth';
 import { Checkout, CheckoutSuccess } from '@pages/Checkout';
-import { TrackOrder, TrackOrderDetail } from '@pages/TrackOrder';
+import TrackOrder from '@pages/TrackOrder';
+import OrderDetail from '@pages/OrderDetail';
 import Layout from '@components/Layout';
 
 import ROUTES from './constants';
@@ -56,7 +57,7 @@ const routes = createBrowserRouter([
       },
       {
         path: ROUTES.TRACK_ORDER_DETAIL.ABSOLUTE_PATH,
-        element: <RequireAuth element={<TrackOrderDetail />} />,
+        element: <RequireAuth element={<OrderDetail />} />,
       },
     ],
   },

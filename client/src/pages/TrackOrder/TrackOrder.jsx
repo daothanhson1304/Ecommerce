@@ -1,5 +1,6 @@
 import { ROUTES } from '@common/routing';
 import TextInput from '@components/Ui';
+import { useGetOrderActivityMutation } from '@store/order/orderSlice';
 import { Controller, useForm } from 'react-hook-form';
 import { BsArrowRight } from 'react-icons/bs';
 import { PiWarningCircleThin } from 'react-icons/pi';
@@ -13,8 +14,21 @@ export default function TrackOrder() {
     },
   });
   const navigate = useNavigate();
-  const handleTrackOrder = () => {
-    navigate(ROUTES.TRACK_ORDER_DETAIL.ABSOLUTE_PATH);
+  const [getOrderActivity] = useGetOrderActivityMutation();
+
+  const handleTrackOrder = async ({ email, orderId }) => {
+    try {
+      const data = await getOrderActivity({
+        email,
+        orderId,
+      }).unwrap();
+
+      navigate(ROUTES.TRACK_ORDER_DETAIL.ABSOLUTE_PATH, {
+        state: { data },
+      });
+    } catch (error) {
+      console.log({ error });
+    }
   };
   return (
     <div className="flex flex-col max-w-[800px]">

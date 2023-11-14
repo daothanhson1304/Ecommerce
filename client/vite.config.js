@@ -10,6 +10,8 @@ export default defineConfig({
       '@common': resolve(__dirname, 'src', 'common'),
       '@app': resolve(__dirname, 'src', 'app'),
       '@store': resolve(__dirname, 'src', 'store'),
+      '@hooks': resolve(__dirname, 'src', 'hooks'),
+      '@context': resolve(__dirname, 'src', 'context'),
     },
   },
   plugins: [react()],

@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { BsArrowRight } from 'react-icons/bs';
 import { Controller, useForm } from 'react-hook-form';
 import { useSignInMutation } from '@store/auth/authSlice';
@@ -13,6 +13,8 @@ const signInDefaultValues = {
 };
 export default function SignIn() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const previousLocationState = location.state;
   const [signIn, { isLoading }] = useSignInMutation();
   const handleNavigateToSignUp = () => {
     navigate(ROUTES.SIGN_UP.ABSOLUTE_PATH);
@@ -20,8 +22,16 @@ export default function SignIn() {
   const { control, handleSubmit } = useForm({
     defaultValues: signInDefaultValues,
   });
-  const onSubmit = (formData) => {
-    signIn(formData);
+  const onSubmit = async (formData) => {
+    try {
+      const data = await signIn(formData).unwrap();
+      const { token, user } = data;
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
+      navigate(previousLocationState.from.pathname);
+    } catch (error) {
+      console.error(error);
+    }
   };
   return (
     <div className=" flex items-center justify-center">

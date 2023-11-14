@@ -11,7 +11,7 @@ const authController = {
       }
       const user = await User.findOne({
         where: { email },
-        attributes: ["name", "email", "password"],
+        attributes: ["name", "email", "password", "id"],
       });
       if (user && (await bcrypt.compare(password, user.password))) {
         const token = jwt.sign(
@@ -21,9 +21,10 @@ const authController = {
             expiresIn: "24h",
           }
         );
-        res
-          .status(200)
-          .json({ user: { email: user.email, name: user.name }, token });
+        res.status(200).json({
+          user: { email: user.email, name: user.name, id: user.id },
+          token,
+        });
       } else {
         res.status(400).send("Invalid Credentials");
       }
@@ -52,7 +53,7 @@ const authController = {
       const userResponse = { email: user.email, name: user.name };
       res.status(201).json(userResponse);
     } catch (err) {
-      console.error(error);
+      console.log(err);
       res.status(500).send("Internal Server Error");
     }
   },

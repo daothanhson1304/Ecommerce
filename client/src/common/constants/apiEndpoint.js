@@ -6,6 +6,12 @@ const API_ENDPOINT = {
     GET_PRODUCT_BRANDS: '/product/get-product-brands',
     GET_PRODUCT_DETAIL: '/product/get-product-detail',
   },
+  CHECKOUT: {
+    CREATE_CHECKOUT_SECTION: '/stripe/create-checkout-session',
+  },
+  ORDER: {
+    GET_ACTIVITY: '/order/get-order-activity',
+  },
 };
 const METHOD = {
   POST: 'POST',

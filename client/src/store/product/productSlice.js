@@ -1,5 +1,3 @@
-// import { useSelector } from 'react-redux';
-// import { createSelector } from '@reduxjs/toolkit';
 import api from '@app/api';
 import { API_ENDPOINT, METHOD } from '@common/constants/apiEndpoint';
 

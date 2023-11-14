@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { BsArrowRight } from 'react-icons/bs';
 
-export default function CardTotals({ className }) {
+export default function CardTotals({ className, total, onCheckout }) {
   return (
     <div
       className={classNames(
@@ -13,7 +13,7 @@ export default function CardTotals({ className }) {
       <div className="flex flex-col gap-3 text-sm">
         <div className="flex justify-between">
           <span className="text-gray-600">Sub-total</span>
-          <span className="font-medium">$320</span>
+          <span className="font-medium">{`$${total}`}</span>
         </div>
         <div className="flex justify-between">
           <span className="text-gray-600">Shipping</span>
@@ -30,11 +30,14 @@ export default function CardTotals({ className }) {
       </div>
       <div className="flex justify-between text-base">
         <span className="font-normal">Total</span>
-        <span className="font-semibold">$320 USD</span>
+        <span className="font-semibold">{`$${total} USD`}</span>
       </div>
       <button
         className="w-full flex items-center gap-3 bg-primary-500 text-white rounded justify-center py-3"
         type="button"
+        onClick={() => {
+          onCheckout();
+        }}
       >
         <span className="text-base font-bold uppercase">
           Proceed to checkout

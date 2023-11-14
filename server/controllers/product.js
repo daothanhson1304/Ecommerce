@@ -6,20 +6,29 @@ const {
   ProductProperties,
   CategoryProperties,
 } = require("../models/index");
-
+const { Op } = require("sequelize");
 const productController = {
   getProducts: async (req, res, next) => {
     try {
-      const { pageIndex, pageSize } = req.query;
+      const { pageIndex, pageSize, category, name } = req.query;
       if (!pageIndex || !pageSize) {
         res.status(400).json({ message: "Bad request!" });
       }
       const limit = parseInt(pageSize) || 10;
       const page = parseInt(pageIndex) || 1;
       const offset = (page - 1) * limit;
+      const whereCondition = {
+        title: {
+          [Op.like]: `${name}%`,
+        },
+      };
+      if (category !== "all") {
+        whereCondition.categoryId = category;
+      }
       const products = await Product.findAndCountAll({
         limit: limit,
         offset: offset,
+        where: whereCondition,
         include: [
           {
             model: ProductImage,
@@ -32,6 +41,7 @@ const productController = {
         ],
         attributes: { exclude: ["createdAt", "updatedAt"] },
       });
+      console.log({ products });
 
       const modifiedProducts = products.rows.map(product => {
         const image = product.images[0] ? product.images[0].image : null;
@@ -55,6 +65,7 @@ const productController = {
         products: modifiedProducts,
       });
     } catch (err) {
+      console.log({ err });
       res.status(500).send({ message: "Internal Server Error", error: err });
     }
   },
@@ -106,24 +117,23 @@ const productController = {
         },
       });
 
-      // const properties = productProperties.reduce((result, current) => {
-      //   // const property = current.categoryProperties.property;
-      //   // console.log({ result, property, key: result[property] });
-      //   // const value = result[property]
-      //   //   ? result[property]?.push(current.value)
-      //   //   : [current.value];
-      //   return {
-      //     // ...result,
-      //     // [property]: value,
-      //   };
-      // }, {});
-      if (!productProperties) {
+      const properties = productProperties.reduce((result, current) => {
+        const property = current.categoryProperties.property;
+        const value = result[property]
+          ? [...result[property], current.value]
+          : [current.value];
+        return {
+          ...result,
+          [property]: value,
+        };
+      }, {});
+      if (!product) {
         return res.status(404).json({ message: "Product not found" });
       }
-      return res.status(200).json(productProperties);
+      product.properties = properties;
+      return res.status(200).json({ product, productDetail: properties });
     } catch (err) {
-      console.log({ err });
-      res.status(500).send(err);
+      res.status(500).send("Internal server error");
     }
   },
 };
